@@ -1,0 +1,40 @@
+name: docker
+
+on:
+  push:
+    paths-ignore:
+      - .github/workflows/ci.yml
+      - .gitignore
+      - .pre-commit-config.yaml
+      - commitlint.config.js
+      - LICENSE
+      - README.md
+
+jobs:
+  docker:
+    name: docker
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Get metadata
+        id: metadata
+        uses: docker/metadata-action@v4
+        with:
+          images: gleroy/${{ github.event.repository.name }}
+          tags: |
+            type=semver,pattern={{version}}
+            type=sha
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: ${{ github.event_name == 'tag' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=gleroy/${{ github.event.repository.name }}:latest
+          cache-to: type=inline

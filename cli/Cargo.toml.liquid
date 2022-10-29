@@ -1,0 +1,17 @@
+[package]
+name = "{{project-name}}"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+{{project-name}}-core = { path = "../core" }
+clap = { version = "4.0", features = ["derive"] }
+clap-verbosity-flag = "2.0"
+env_logger = "0.9"
+log = "0.4"

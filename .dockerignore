@@ -1,0 +1,14 @@
+/.git
+/.github
+/node_modules
+/target
+/.dockerignore
+/.gitignore
+/.pre-commit-config.yaml
+/Cargo.lock
+/commitlint.config.js
+/Dockerfile
+/LICENSE
+/package-lock.json
+/package.json
+/README.md

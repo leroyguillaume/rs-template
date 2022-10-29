@@ -1,0 +1,14 @@
+ARG alpine_version=3.16
+
+FROM rust:1.64-alpine${alpine_version} AS build
+
+WORKDIR /app
+COPY . .
+
+RUN cargo build --release
+
+FROM alpine:${alpine_version}
+
+COPY --from=build /app/target/release/{{project-name}}-cli /usr/local/bin/{{project-name}}
+
+ENTRYPOINT ["{{project-name}}"]
