@@ -18,10 +18,16 @@ your commits before merging, depending.
 
 ## Development workflow
 
-To build {{project-name}}, [install Rust](http://rust-lang.org/install.html), and then:
+### Software requirements
+- [Rust](http://rust-lang.org/install.html)
+- [pre-commit](https://pre-commit.com/#install)
+- [npm](https://nodejs.org/en/download/)
+
 ```bash
 git clone https://github.com/leroyguillaume/{{project-name}}
 cd {{project-name}}
+pre-commit install -t pre-commit -t commit-msg
+npm install
 cargo build
 ```
 
