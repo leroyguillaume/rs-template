@@ -9,11 +9,10 @@ on:
       - .gitignore
       - Dockerfile
       - LICENSE
-      - README.md
+      - "*.md"
 
 jobs:
   commitlint:
-    name: commitlint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,7 +25,7 @@ jobs:
 
       - name: Get npm cache directory
         id: npm-cache-dir
-        run: echo "::set-output name=dir::$(npm config get cache)"
+        run: echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
 
       - name: Restore npm cache
         uses: actions/cache@v3
@@ -40,8 +39,7 @@ jobs:
       - name: Run commitlint
         run: node node_modules/@commitlint/cli/cli.js --from=origin/main
 
-  lint-clippy-test:
-    name: lint-clippy-test
+  pre-commit:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -49,6 +47,8 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v4
+        with:
+          version: "3.9"
 
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
@@ -68,6 +68,12 @@ jobs:
 
       - name: Run pre-commit
         uses: pre-commit/action@v3.0.0
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Run tests
         run: cargo test --all
