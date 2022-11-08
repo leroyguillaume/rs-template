@@ -7,8 +7,8 @@ COPY . .
 
 RUN cargo build --release
 
-FROM alpine:${alpine_version}
+FROM alpine:${alpine_version} AS cli
 
-COPY --from=build /app/target/release/{{project-name}}-cli /usr/local/bin/{{project-name}}
+COPY --from=build /app/target/release/{{project-name}} /usr/local/bin/{{project-name}}
 
 ENTRYPOINT ["{{project-name}}"]
