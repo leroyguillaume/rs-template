@@ -2,10 +2,12 @@ mod arg;
 
 use arg::Arguments;
 use clap::Parser;
+use simple_logger::SimpleLogger;
 
 fn main() {
     let args = Arguments::parse();
-    env_logger::Builder::new()
-        .filter_level(args.verbosity.log_level_filter())
-        .init();
+    SimpleLogger::new()
+        .with_level(args.verbosity.log_level_filter())
+        .init()
+        .unwrap();
 }
